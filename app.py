@@ -1,20 +1,27 @@
-from pycaret.regression import load_model, predict_model
+import pycaret
+from pycaret.regression import *
 import streamlit as st
 import pandas as pd
 import numpy as np
 
-model = load_model('deployment_28042020')
+
+model = pd.read_pickle('model.pkl')
 
 def predict(model, input_df):
     predictions_df = predict_model(estimator=model, data=input_df)
     predictions = predictions_df['Label'][0]
     return predictions
 
-def run():
 
+def run():
+    import streamlit as st
     from PIL import Image
-    image = Image.open('logo.png')
-    image_hospital = Image.open('hospital.jpg')
+    import os
+    cwd = os.getcwd()
+    print(cwd)
+    st.write(cwd)
+    image = Image.open('./assets/logo2.png')
+    image_jamb = Image.open('./assets/jambitches.jpg')
 
     st.image(image,use_column_width=False)
 
@@ -22,12 +29,13 @@ def run():
     "How would you like to predict?",
     ("Online", "Batch"))
 
-    st.sidebar.info('This app is created to predict patient hospital charges')
+    st.sidebar.info('Prediccion en linea y por lotes de bienes raices')
     st.sidebar.success('https://www.pycaret.org')
-    
-    st.sidebar.image(image_hospital)
 
-    st.title("Insurance Charges Prediction App")
+    st.sidebar.image(image_jamb)
+
+    st.title("JAMBOUSING")
+    st.header("Real state prediction app")
 
     if add_selectbox == 'Online':
 
@@ -43,7 +51,7 @@ def run():
 
         output=""
 
-        input_dict = {'age' : age, 'sex' : sex, 'bmi' : bmi, 'children' : children, 'smoker' : smoker, 'region' : region}
+        input_dict = {'age' : age, 'sex' : sex, 'bmi' : bmi, 'children' : children, 'scd moker' : smoker, 'region' : region}
         input_df = pd.DataFrame([input_dict])
 
         if st.button("Predict"):
@@ -58,8 +66,8 @@ def run():
 
         if file_upload is not None:
             data = pd.read_csv(file_upload)
-            predictions = predict_model(estimator=model,data=data)
-            st.write(predictions)
+            #predictions = predict_model(estimator=model,data=data)
+            #st.write(predictions)
 
 if __name__ == '__main__':
     run()
